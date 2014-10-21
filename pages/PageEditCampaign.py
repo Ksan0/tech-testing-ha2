@@ -22,11 +22,11 @@ class PageEditCampaign(PageObject):
         return age_limit_elem.text.replace(u'Не учитывать', 'None')
 
     def get_interests(self):
-        interests_active_xpath = '/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[7]/div/div[2]/ul/li[21]/div/div[2]/span'
+        #interests_active_xpath = '/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[7]/div/div[2]/ul/li[21]/div/div[2]/span'
         interests_list_xpath = '/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[7]/div/div[2]/ul/li[21]/div/div[2]/div[2]/div/div/div/ul'
 
-        interests_active_elem = self._find_element_by_xpath(xpath=interests_active_xpath)
-        interests_active_elem.click()
+        #interests_active_elem = self._find_element_by_xpath(xpath=interests_active_xpath)
+        #interests_active_elem.click()
 
         interests_list_elem = self._find_element_by_xpath(xpath=interests_list_xpath)
         interests_list = interests_list_elem.find_elements_by_class_name('campaign-setting__chosen-box__item')
