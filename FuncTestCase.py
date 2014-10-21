@@ -14,7 +14,7 @@ class FuncTestCase(unittest.TestCase):
         self.auth_fill_args = {
             'login': 'tech-testing-ha2-6',
             'domain': '@bk.ru',
-            'password': os.environ['TTHA2PASSWORD']  # passw = Pa$$w0rD-6
+            'password': os.environ['TTHA2PASSWORD']
         }
         self.__base_fill_args = {
             'name': 'new company',
