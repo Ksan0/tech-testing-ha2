@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 import unittest
 from selenium import webdriver
-from test_main import FuncTestCase
+from FuncTestCase import FuncTestCase
 
 
 def main():
