@@ -24,9 +24,9 @@ class FuncTestCase(unittest.TestCase):
             'image': '/home/ksan/TP/Quality/tech-testing-ha2/image.jpg'
         }
 
-        driver = eval(
-        "Remote(command_executor='http://127.0.0.1:4444/wd/hub', desired_capabilities=DesiredCapabilities.{0}.copy())"
-        .format(os.environ['TTHA2BROWSER'])
+        driver = Remote(
+            command_executor='http://127.0.0.1:4444/wd/hub',
+            desired_capabilities=getattr(DesiredCapabilities, os.environ['TTHA2BROWSER']).copy()
         )
 
         page_auth = PageAuth(driver)
