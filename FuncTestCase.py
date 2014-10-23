@@ -17,11 +17,10 @@ class FuncTestCase(unittest.TestCase):
             'password': os.environ['TTHA2PASSWORD']
         }
         self.__base_fill_args = {
-            'name': 'new company',
             'title': 'title',
             'text': 'text',
             'url': 'https://play.google.com/store/apps/details?id=com.android.chrome&hl=ru',
-            'image': '/home/ksan/TP/Quality/tech-testing-ha2/image.jpg'
+            'image': '/home/ksan0/TP/QA/tech-testing-ha2/image.jpg'
         }
 
         driver = Remote(
@@ -60,7 +59,7 @@ class FuncTestCase(unittest.TestCase):
         self.assertEqual(self.current_page.get_user_email(), self.auth_fill_args['login'] + self.auth_fill_args['domain'])
         self.current_page = None
         self.addCleanup(self.__cleanup_close_window)
-
+    
     def test_create_campaign_empty(self):
         self.current_page = None
 

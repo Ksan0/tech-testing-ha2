@@ -10,7 +10,6 @@ class PageCreateCampaign(PageObject):
     def fill(self, **kwargs):
         """
         :Args:
-         - name: campaign name
          - title: first banner title
          - text: first banner text
          - url: first banner url
@@ -20,35 +19,29 @@ class PageCreateCampaign(PageObject):
         what_xpath = '//*[@id="product-type-6039"]'
         place_xpath = '//*[@id="pad-mobile_app_web_service"]'
 
-        campaign_name_xpath = '/html/body/div[1]/div[5]/div/div[1]/div/div/div[1]/input'
-        title_xpath = '/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[3]/div/div[1]/ul/li[2]/input'
-        text_xpath = '/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[3]/div/div[1]/ul/li[3]/textarea'
-        url_xpath = '/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[3]/div/div[1]/ul/li[4]/span[2]/input'
-
         what_elem = self._find_element_by_xpath(xpath=what_xpath)
         what_elem.click()
 
         place_elem = self._find_element_by_xpath(xpath=place_xpath)
         place_elem.click()
 
-        campaign_name_elem = self._find_element_by_xpath(xpath=campaign_name_xpath)
-        campaign_name_elem.clear()
-        campaign_name_elem.send_keys(kwargs['name'])
+        li_form_list = self._find_element_by_class_name(elem_class="banner-form__list").find_elements_by_class_name("banner-form__row")
+        l_find_input_by_data_name = lambda _list, _data_name, _index=0: [x for x in _list if x.get_attribute('data-name') == _data_name][_index]\
+            .find_element_by_class_name('banner-form__input')
 
-        title_elem = self._find_element_by_xpath(title_xpath)
+        title_elem = l_find_input_by_data_name(li_form_list, 'title')
         title_elem.send_keys(kwargs['title'])
 
-        text_elem = self._find_element_by_xpath(text_xpath)
+        text_elem = l_find_input_by_data_name(li_form_list, 'text')
         text_elem.send_keys(kwargs['text'])
 
-        url_elem = self._find_element_by_xpath(url_xpath)
+        url_elem = l_find_input_by_data_name(li_form_list, 'url', 1)
         url_elem.send_keys(kwargs['url'])
 
-        image_elem = self._find_element_by_xpath('/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[3]/div/div[1]/ul/li[8]/form/div/input')
+        image_elem = l_find_input_by_data_name(li_form_list, 'image')
         image_elem.send_keys(kwargs['image'])
 
     def fill_age_limit(self, limit='None'):
-        limit_activate_xpath = '/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[7]/div/div[2]/ul/li[3]/div/div[2]/span'
         limits_xpath = {
             'None': '//*[@id="restrict-"]',
             '0+': '//*[@id="restrict-0+"]',
@@ -58,7 +51,8 @@ class PageCreateCampaign(PageObject):
             '18+': '//*[@id="restrict-18+"]'
         }
 
-        limit_activate_elem = self._find_element_by_xpath(xpath=limit_activate_xpath)
+        limit_activate_elem = self._find_element_by_class_name('campaign-setting__wrapper_restrict')\
+            .find_element_by_class_name('campaign-setting__value')
         limit_activate_elem.click()
 
         limit_elem = self._find_element_by_xpath(xpath=limits_xpath[limit])
@@ -67,11 +61,11 @@ class PageCreateCampaign(PageObject):
         limit_activate_elem.click()
 
     def fill_interests(self, root_interest_id, click_interests_id):
-        interests_activate_xpath = '/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[7]/div/div[2]/ul/li[21]/div/div[2]/span'
         tree_open_class_name = 'tree__node__collapse-icon'
         input_class_name = 'tree__node__input'
 
-        interests_activate_elem = self._find_element_by_xpath(xpath=interests_activate_xpath)
+        interests_activate_elem = self._find_element_by_class_name('campaign-setting__wrapper_interests')\
+            .find_element_by_class_name('campaign-setting__value')
         interests_activate_elem.click()
 
         root_interest_elem_li = self._find_element_by_id(elem_id='interests'+root_interest_id)
@@ -87,12 +81,10 @@ class PageCreateCampaign(PageObject):
         interests_activate_elem.click()
 
     def go(self):
-        create_button_xpath = '/html/body/div[1]/div[5]/div/div[2]/div/div[2]/div[2]/span'
-        create_button_elem = self._find_element_by_xpath(xpath=create_button_xpath)
+        create_button_elem = self._find_element_by_class_name('main-button-new')
         create_button_elem.click()
 
     def wait_for_image_upload(self):
-        image_xpath = '/html/body/div[1]/div[5]/div/div[2]/div/div[1]/div[3]/div/div[1]/div/div/div[2]/div[1]/div/div[1]/span[1]'
-        image_elem = self._find_element_by_xpath(xpath=image_xpath)
+        image_elem = self._find_element_by_class_name('banner-preview__img')
         l = lambda d, args: args['elem'].get_attribute('style') != 'display: none;'
         self._wait_for(l=l, args={'elem': image_elem})

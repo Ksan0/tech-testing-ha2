@@ -1,5 +1,5 @@
 from selenium.webdriver.support.wait import WebDriverWait
-
+from selenium.webdriver.common.by import By
 
 class PageObject(object):
     __site_url = 'https://target.mail.ru'
@@ -8,15 +8,19 @@ class PageObject(object):
         self.__driver = driver
         self.__page_url = page_url
 
-    def _find_element_by_xpath(self, xpath, timeout=30, poll_frequency=0.1):
+    def _find_element(self, by, value, timeout=30, poll_frequency=0.1):
         return WebDriverWait(driver=self.__driver, timeout=timeout, poll_frequency=poll_frequency).until(
-            lambda d: d.find_element_by_xpath(xpath)
+            lambda d: d.find_element(by=by, value=value)
         )
 
+    def _find_element_by_xpath(self, xpath, timeout=30, poll_frequency=0.1):
+        return self._find_element(by=By.XPATH, value=xpath, timeout=timeout, poll_frequency=poll_frequency)
+
     def _find_element_by_id(self, elem_id, timeout=30, poll_frequency=0.1):
-        return WebDriverWait(driver=self.__driver, timeout=timeout, poll_frequency=poll_frequency).until(
-            lambda d: d.find_element_by_id(elem_id)
-        )
+        return self._find_element(by=By.ID, value=elem_id, timeout=timeout, poll_frequency=poll_frequency)
+
+    def _find_element_by_class_name(self, elem_class, timeout=30, poll_frequency=0.1):
+        return self._find_element(by=By.CLASS_NAME, value=elem_class, timeout=timeout, poll_frequency=poll_frequency)
 
     def _wait_for(self, l, args, timeout=30, poll_frequency=0.1):
         WebDriverWait(driver=self.__driver, timeout=timeout, poll_frequency=poll_frequency).until(
